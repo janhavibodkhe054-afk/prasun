@@ -2,7 +2,7 @@ import React from 'react'
 import ElectricalUtilityHero from '../components/product/electrical-home-utility/ElectricalUtilityHero'
 import ElectricalUtilityProducts from '../components/product/electrical-home-utility/ElectricalUtilityProducts'
 
-const Electrical = () => {
+const Electric = () => {
   return (
     <div>
       <ElectricalUtilityHero/>
@@ -11,4 +11,4 @@ const Electrical = () => {
   )
 }
 
-export default Electrical
+export default Electric

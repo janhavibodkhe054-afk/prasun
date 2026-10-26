@@ -11,9 +11,10 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Services from "./pages/Services";
 import Earthing from "./pages/Earthing";
-import Electrical from "./pages/electrical";
+
 import Lightning from "./pages/Lightning";
 import WaterDrilling from "./pages/WaterDrilling";
+import Electric from "./pages/Electric";
 
 function App() {
   return (
@@ -33,7 +34,7 @@ function App() {
   path="/products/earthing-grounding-solutions"
   element={<Earthing />}
 />
-          <Route path="/products/electrical-home-utility-products" element={<Electrical />} />
+          <Route path="/products/electrical-home-utility-products" element={<Electric />} />
           <Route path="/products/lightning-electrical-safety-solutions" element={<Lightning />} />
           <Route path="/products/water-drilling-solutions" element={<WaterDrilling />} />
         </Routes>
