@@ -29,7 +29,6 @@ import {
   CloudCog,
   Database,
   Headset,
-  Search,
   ChartNoAxesCombined,
   ArrowUpRight,
   ArrowRight,
@@ -41,9 +40,9 @@ import {
 
 import { useNavigate } from "react-router-dom";
 
-// ----------------------------------------------------
-// CATEGORIES
-// ----------------------------------------------------
+// =============================================
+// SERVICE CATEGORIES
+// =============================================
 
 const categories = [
   { id: "all", label: "All" },
@@ -65,9 +64,9 @@ const categories = [
   },
 ];
 
-// ----------------------------------------------------
-// EXACT 16 SERVICES - SCREENSHOT ORDER
-// ----------------------------------------------------
+// =============================================
+// ALL SERVICES
+// =============================================
 
 const services = [
   {
@@ -340,12 +339,11 @@ const services = [
       "Implementation support",
     ],
   },
- 
 ];
 
-// ----------------------------------------------------
+// =============================================
 // ANIMATION
-// ----------------------------------------------------
+// =============================================
 
 const cardVariants = {
   hidden: {
@@ -364,11 +362,15 @@ const cardVariants = {
   },
 };
 
-// ----------------------------------------------------
+// =============================================
 // SERVICE CARD
-// ----------------------------------------------------
+// =============================================
 
-function ServiceCard({ service, onOpen, reduceMotion }) {
+function ServiceCard({
+  service,
+  onOpen,
+  reduceMotion,
+}) {
   const Icon = service.icon;
 
   const categoryLabel = categories.find(
@@ -382,17 +384,22 @@ function ServiceCard({ service, onOpen, reduceMotion }) {
       initial={reduceMotion ? false : "hidden"}
       whileInView="visible"
       viewport={{ once: true, amount: 0.12 }}
-      whileHover={reduceMotion ? undefined : { y: -8 }}
+      whileHover={
+        reduceMotion ? undefined : { y: -8 }
+      }
       className="group relative flex h-full flex-col overflow-hidden border border-[#E8E8E2] bg-white shadow-[0_10px_35px_rgba(40,45,30,0.045)] transition-[border-color,box-shadow] duration-500 hover:border-[#B7D696] hover:shadow-[0_22px_55px_rgba(40,65,35,0.13)]"
     >
-      {/* IMAGE */}
+      {/* CARD IMAGE */}
+
       <div className="relative h-[205px] overflow-hidden bg-[#EDF2E9] sm:h-[215px]">
         <motion.img
           src={service.image}
           alt={service.title}
           loading="lazy"
           whileHover={
-            reduceMotion ? undefined : { scale: 1.09 }
+            reduceMotion
+              ? undefined
+              : { scale: 1.09 }
           }
           transition={{ duration: 0.7 }}
           className="h-full w-full object-cover"
@@ -409,7 +416,8 @@ function ServiceCard({ service, onOpen, reduceMotion }) {
         </div>
       </div>
 
-      {/* CONTENT */}
+      {/* CARD CONTENT */}
+
       <div className="flex flex-1 flex-col px-6 pb-6 pt-6">
         <span className="mb-3 text-[10px] font-semibold uppercase tracking-[1.1px] text-[#79A83C]">
           {categoryLabel}
@@ -444,9 +452,9 @@ function ServiceCard({ service, onOpen, reduceMotion }) {
   );
 }
 
-// ----------------------------------------------------
-// CENTERED MODAL
-// ----------------------------------------------------
+// =============================================
+// SERVICE MODAL - FULL IMAGE VISIBLE
+// =============================================
 
 function ServiceModal({
   service,
@@ -455,19 +463,28 @@ function ServiceModal({
   reduceMotion,
 }) {
   const Icon = service.icon;
+
   const closeButtonRef = useRef(null);
   const dialogRef = useRef(null);
   const onCloseRef = useRef(onClose);
+
+  const categoryLabel = categories.find(
+    (item) => item.id === service.category
+  )?.label;
 
   useEffect(() => {
     onCloseRef.current = onClose;
   }, [onClose]);
 
   useEffect(() => {
-    const previousOverflow = document.body.style.overflow;
-    const previouslyFocused = document.activeElement;
+    const previousOverflow =
+      document.body.style.overflow;
+
+    const previouslyFocused =
+      document.activeElement;
 
     document.body.style.overflow = "hidden";
+
     closeButtonRef.current?.focus();
 
     const handleKeyDown = (event) => {
@@ -477,6 +494,7 @@ function ServiceModal({
 
       if (event.key === "Tab") {
         const modal = dialogRef.current;
+
         if (!modal) return;
 
         const focusable = Array.from(
@@ -506,11 +524,20 @@ function ServiceModal({
       }
     };
 
-    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener(
+      "keydown",
+      handleKeyDown
+    );
 
     return () => {
-      document.body.style.overflow = previousOverflow;
-      window.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow =
+        previousOverflow;
+
+      window.removeEventListener(
+        "keydown",
+        handleKeyDown
+      );
+
       previouslyFocused?.focus?.();
     };
   }, []);
@@ -535,10 +562,22 @@ function ServiceModal({
         initial={
           reduceMotion
             ? false
-            : { opacity: 0, y: 45, scale: 0.94 }
+            : {
+                opacity: 0,
+                y: 45,
+                scale: 0.94,
+              }
         }
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        exit={{ opacity: 0, y: 20, scale: 0.97 }}
+        animate={{
+          opacity: 1,
+          y: 0,
+          scale: 1,
+        }}
+        exit={{
+          opacity: 0,
+          y: 20,
+          scale: 0.97,
+        }}
         transition={{
           type: "spring",
           stiffness: 260,
@@ -546,42 +585,46 @@ function ServiceModal({
         }}
         className="relative flex max-h-[92dvh] w-full max-w-[850px] flex-col overflow-hidden bg-white shadow-[0_30px_100px_rgba(0,0,0,0.35)]"
       >
-        {/* MODAL IMAGE */}
-        <div className="relative h-[145px] shrink-0 overflow-hidden bg-[#E9F0E4] sm:h-[210px]">
+        {/* ================================= */}
+        {/* FULL MODAL IMAGE - NO CROPPING */}
+        {/* ================================= */}
+
+        <div className="relative flex h-[240px] shrink-0 items-center justify-center overflow-hidden bg-[#F8FAF6] p-3 sm:h-[340px] sm:p-5 lg:h-[390px]">
           <img
             src={service.image}
             alt={service.title}
-            className="h-full w-full object-cover"
+            className="h-full w-full object-contain"
           />
 
-          <div className="absolute inset-0 bg-gradient-to-t from-[#102016]/75 via-[#102016]/10 to-transparent" />
+          {/* CATEGORY LABEL */}
 
-          <div className="absolute bottom-5 left-5 flex items-center gap-3 sm:left-8">
-            <div className="flex h-[45px] w-[45px] items-center justify-center bg-white text-[#79A83C]">
-              <Icon size={23} />
+          <div className="absolute bottom-3 left-3 flex max-w-[75%] items-center gap-2 bg-white/95 px-3 py-2 shadow-sm sm:bottom-5 sm:left-5">
+            <div className="flex h-[35px] w-[35px] shrink-0 items-center justify-center bg-[#EFF7E9] text-[#79A83C]">
+              <Icon size={19} />
             </div>
 
-            <span className="text-[11px] font-semibold uppercase tracking-[1.4px] text-white">
-              {
-                categories.find(
-                  (item) => item.id === service.category
-                )?.label
-              }
+            <span className="text-[10px] font-semibold uppercase tracking-[1px] text-[#26352A] sm:text-[11px]">
+              {categoryLabel}
             </span>
           </div>
+
+          {/* CLOSE BUTTON */}
 
           <button
             ref={closeButtonRef}
             type="button"
             onClick={onClose}
             aria-label="Close service details"
-            className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center bg-white text-[#26352A] transition-colors hover:bg-[#C73828] hover:text-white"
+            className="absolute right-3 top-3 flex h-10 w-10 items-center justify-center bg-white text-[#26352A] shadow-md transition-colors hover:bg-[#C73828] hover:text-white sm:right-5 sm:top-5"
           >
             <X size={20} />
           </button>
         </div>
 
+        {/* ================================= */}
         {/* MODAL CONTENT */}
+        {/* ================================= */}
+
         <div className="min-h-0 flex-1 overflow-y-auto px-5 py-6 sm:px-8 sm:py-7">
           <h3
             id="service-modal-title"
@@ -592,6 +635,8 @@ function ServiceModal({
 
           <div className="mt-5 h-[3px] w-14 bg-[#C73828]" />
 
+          {/* OVERVIEW */}
+
           <h4 className="mt-6 text-[16px] font-bold text-[#26352A]">
             Service Overview
           </h4>
@@ -599,6 +644,8 @@ function ServiceModal({
           <p className="mt-3 text-[14px] leading-[27px] text-[#687568]">
             {service.overview}
           </p>
+
+          {/* FEATURES */}
 
           <div className="mt-7 border-t border-[#E7ECE3] pt-6">
             <h4 className="mb-5 text-[16px] font-bold text-[#26352A]">
@@ -612,7 +659,10 @@ function ServiceModal({
                   className="flex items-start gap-3"
                 >
                   <div className="mt-[3px] flex h-5 w-5 shrink-0 items-center justify-center bg-[#EFF7E9] text-[#79AA3C]">
-                    <Check size={13} strokeWidth={2.5} />
+                    <Check
+                      size={13}
+                      strokeWidth={2.5}
+                    />
                   </div>
 
                   <span className="text-[13px] leading-[23px] text-[#536153]">
@@ -624,7 +674,10 @@ function ServiceModal({
           </div>
         </div>
 
+        {/* ================================= */}
         {/* MODAL FOOTER */}
+        {/* ================================= */}
+
         <div className="flex shrink-0 flex-wrap items-center justify-between gap-3 border-t border-[#E7ECE3] bg-white px-5 py-4 sm:px-8">
           <button
             type="button"
@@ -632,6 +685,7 @@ function ServiceModal({
             className="flex items-center gap-2 text-[13px] font-semibold text-[#647164] transition-colors hover:text-[#C73828]"
           >
             <ArrowLeft size={16} />
+
             Back to Services
           </button>
 
@@ -652,22 +706,29 @@ function ServiceModal({
   );
 }
 
-// ----------------------------------------------------
+// =============================================
 // MAIN COMPONENT
-// ----------------------------------------------------
+// =============================================
 
 export default function AllServices() {
-  const [activeCategory, setActiveCategory] = useState("all");
-  const [selectedService, setSelectedService] = useState(null);
+  const [activeCategory, setActiveCategory] =
+    useState("all");
+
+  const [selectedService, setSelectedService] =
+    useState(null);
 
   const reduceMotion = useReducedMotion();
+
   const navigate = useNavigate();
 
   const filteredServices = useMemo(() => {
-    if (activeCategory === "all") return services;
+    if (activeCategory === "all") {
+      return services;
+    }
 
     return services.filter(
-      (service) => service.category === activeCategory
+      (service) =>
+        service.category === activeCategory
     );
   }, [activeCategory]);
 
@@ -688,7 +749,8 @@ export default function AllServices() {
         aria-labelledby="all-services-heading"
         className="relative isolate overflow-hidden bg-[#FAF8F5] py-14 sm:py-16 lg:py-20"
       >
-        {/* MOVING BACKGROUND */}
+        {/* BACKGROUND ANIMATION */}
+
         <motion.div
           aria-hidden="true"
           className="pointer-events-none absolute -left-40 top-20 h-[440px] w-[440px] rounded-full bg-[#8BC53F]/[0.09] blur-[100px]"
@@ -727,13 +789,17 @@ export default function AllServices() {
 
         <div className="relative z-10 mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-12">
           {/* HEADING */}
+
           <motion.div
             initial={
               reduceMotion
                 ? false
                 : { opacity: 0, y: 30 }
             }
-            whileInView={{ opacity: 1, y: 0 }}
+            whileInView={{
+              opacity: 1,
+              y: 0,
+            }}
             viewport={{ once: true }}
             transition={{ duration: 0.75 }}
             className="mx-auto mb-9 max-w-[780px] text-center"
@@ -759,22 +825,26 @@ export default function AllServices() {
             </h2>
 
             <p className="mx-auto mt-4 max-w-[670px] text-[14px] leading-[27px] text-[#687568] sm:text-[15px]">
-              Explore our electrical, infrastructure, software,
-              cloud and IT solutions designed around different
-              business requirements.
+              Explore our electrical, infrastructure,
+              software, cloud and IT solutions designed
+              around different business requirements.
             </p>
           </motion.div>
 
-          {/* FILTERS */}
+          {/* CATEGORY FILTERS */}
+
           <div className="mb-9 flex flex-wrap justify-center gap-2.5">
             {categories.map((category) => {
-              const active = activeCategory === category.id;
+              const active =
+                activeCategory === category.id;
 
               return (
                 <button
                   key={category.id}
                   type="button"
-                  onClick={() => setActiveCategory(category.id)}
+                  onClick={() =>
+                    setActiveCategory(category.id)
+                  }
                   aria-pressed={active}
                   className={`relative overflow-hidden border px-4 py-3 text-[12px] font-semibold transition-colors duration-300 sm:px-5 sm:text-[13px] ${
                     active
@@ -802,7 +872,8 @@ export default function AllServices() {
             })}
           </div>
 
-          {/* RESULTS */}
+          {/* SERVICE COUNT */}
+
           <div className="mb-6 flex items-center justify-between border-b border-[#E5E7E0] pb-4">
             <p className="text-[13px] text-[#788578]">
               Showing{" "}
@@ -818,7 +889,8 @@ export default function AllServices() {
             />
           </div>
 
-          {/* SERVICES GRID */}
+          {/* SERVICE CARDS */}
+
           <motion.div
             layout
             className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
@@ -837,7 +909,8 @@ export default function AllServices() {
         </div>
       </section>
 
-      {/* PORTAL MODAL */}
+      {/* SERVICE MODAL */}
+
       {typeof document !== "undefined" &&
         createPortal(
           <AnimatePresence>
@@ -845,7 +918,9 @@ export default function AllServices() {
               <ServiceModal
                 key={selectedService.id}
                 service={selectedService}
-                onClose={() => setSelectedService(null)}
+                onClose={() =>
+                  setSelectedService(null)
+                }
                 onEnquire={handleEnquire}
                 reduceMotion={reduceMotion}
               />

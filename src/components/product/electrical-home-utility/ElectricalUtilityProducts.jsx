@@ -15,7 +15,7 @@ const products = [
   {
     id: 1,
     name: "Electrical Energy Power Saver",
-    image: "/power-saver.png",
+    image: "/electric1.png",
     description:
       "Plug-and-play electrical device marketed for power factor improvement and surge-related protection.",
     moq: "100 Pieces",
@@ -38,7 +38,7 @@ const products = [
   {
     id: 2,
     name: "Instant Water Mini Geyser",
-    image: "/mini-geyser.png",
+    image: "/electric2.png",
     description:
       "Compact instant water heater intended for kitchens, bathrooms, salons, hotels and similar applications.",
     moq: "10 Pieces",
@@ -62,7 +62,7 @@ const products = [
   {
     id: 3,
     name: "Plastic Air Cooler",
-    image: "/air-cooler.png",
+    image: "/electric3.png",
     description:
       "Electric-powered plastic air cooler for home and office use, designed for convenient cooling during hot weather.",
     moq: "10 Pieces",

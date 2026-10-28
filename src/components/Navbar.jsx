@@ -1,24 +1,34 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import {
+  motion,
+  AnimatePresence,
+  useReducedMotion,
+} from "framer-motion";
 
 import {
   ArrowUpRight,
-  ArrowRight,
   ChevronDown,
   ChevronRight,
   Menu,
   X,
   Mail,
   MapPin,
-  Phone,
-  Sparkles,
 } from "lucide-react";
 
 const GREEN = "#8BC53F";
 const DARK_GREEN = "#26352A";
 const RED = "#C73828";
+
+const WHATSAPP_NUMBER = "919420415864";
+
+const WHATSAPP_MESSAGE =
+  "Hello Prasun Multiservices, I would like to get a quote.";
+
+const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+  WHATSAPP_MESSAGE
+)}`;
 
 const productCategories = [
   {
@@ -65,12 +75,16 @@ const dropdownVariants = {
     opacity: 0,
     y: 8,
     scale: 0.97,
-    transition: { duration: 0.18 },
+    transition: {
+      duration: 0.18,
+    },
   },
 };
 
 const mobileVariants = {
-  hidden: { x: "100%" },
+  hidden: {
+    x: "100%",
+  },
   visible: {
     x: 0,
     transition: {
@@ -81,7 +95,9 @@ const mobileVariants = {
   },
   exit: {
     x: "100%",
-    transition: { duration: 0.28 },
+    transition: {
+      duration: 0.28,
+    },
   },
 };
 
@@ -95,11 +111,14 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
+  const [mobileProductsOpen, setMobileProductsOpen] =
+    useState(false);
 
-  const isProductsPage = location.pathname.startsWith("/products");
+  const isProductsPage =
+    location.pathname.startsWith("/products/");
 
   const closeMenus = () => {
+    clearTimeout(dropdownTimer.current);
     setProductsOpen(false);
     setMobileOpen(false);
     setMobileProductsOpen(false);
@@ -120,7 +139,9 @@ export default function Navbar() {
       passive: true,
     });
 
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   useEffect(() => {
@@ -139,17 +160,29 @@ export default function Navbar() {
       }
     };
 
-    document.addEventListener("pointerdown", handleOutsideClick);
+    document.addEventListener(
+      "pointerdown",
+      handleOutsideClick
+    );
+
     document.addEventListener("keydown", handleEscape);
 
     return () => {
-      document.removeEventListener("pointerdown", handleOutsideClick);
-      document.removeEventListener("keydown", handleEscape);
+      document.removeEventListener(
+        "pointerdown",
+        handleOutsideClick
+      );
+
+      document.removeEventListener(
+        "keydown",
+        handleEscape
+      );
     };
   }, []);
 
   useEffect(() => {
-    const previousOverflow = document.body.style.overflow;
+    const previousOverflow =
+      document.body.style.overflow;
 
     if (mobileOpen) {
       document.body.style.overflow = "hidden";
@@ -171,11 +204,18 @@ export default function Navbar() {
 
     window.addEventListener("resize", handleResize);
 
-    return () => window.removeEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener(
+        "resize",
+        handleResize
+      );
+    };
   }, []);
 
   useEffect(() => {
-    return () => clearTimeout(dropdownTimer.current);
+    return () => {
+      clearTimeout(dropdownTimer.current);
+    };
   }, []);
 
   const openDropdown = () => {
@@ -184,6 +224,8 @@ export default function Navbar() {
   };
 
   const closeDropdownDelayed = () => {
+    clearTimeout(dropdownTimer.current);
+
     dropdownTimer.current = setTimeout(() => {
       setProductsOpen(false);
     }, 150);
@@ -201,19 +243,22 @@ export default function Navbar() {
 
   return (
     <>
-      {/* ========================================= */}
+      {/* ====================================== */}
       {/* TOP INFORMATION BAR */}
-      {/* ========================================= */}
+      {/* ====================================== */}
 
       <div className="relative hidden overflow-hidden bg-[#365A24] text-white lg:block">
-        {/* Animated Glow */}
+        {/* ANIMATED GLOW */}
+
         <motion.div
           aria-hidden="true"
           className="pointer-events-none absolute -top-16 left-[15%] h-[140px] w-[320px] rounded-full bg-[#8BC53F]/20 blur-[60px]"
           animate={
             reduceMotion
               ? undefined
-              : { x: [0, 260, 0] }
+              : {
+                  x: [0, 260, 0],
+                }
           }
           transition={{
             duration: 14,
@@ -224,21 +269,35 @@ export default function Navbar() {
 
         <div className="relative mx-auto flex h-[42px] max-w-[1440px] items-center justify-between px-6 xl:px-12">
           <div className="flex items-center gap-7">
+            {/* EMAIL */}
+
             <a
               href="mailto:prasunmultiservices@gmail.com"
               className="group flex items-center gap-2 text-[12px] font-medium text-white/90 transition-colors hover:text-[#B7ED75]"
             >
-              <Mail size={15} className="text-[#B7ED75]" />
+              <Mail
+                size={15}
+                className="text-[#B7ED75]"
+              />
+
               prasunmultiservices@gmail.com
             </a>
 
             <span className="h-4 w-px bg-white/25" />
 
+            {/* LOCATION */}
+
             <div className="flex items-center gap-2 text-[12px] font-medium text-white/90">
-              <MapPin size={15} className="text-[#B7ED75]" />
+              <MapPin
+                size={15}
+                className="text-[#B7ED75]"
+              />
+
               Loni Kalbhor, Pune, Maharashtra
             </div>
           </div>
+
+          {/* RIGHT TEXT */}
 
           <div className="flex items-center gap-2.5 text-[12px] font-semibold text-white">
             <motion.span
@@ -262,18 +321,26 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* ========================================= */}
+      {/* ====================================== */}
       {/* MAIN NAVBAR */}
-      {/* ========================================= */}
+      {/* ====================================== */}
 
       <motion.header
         initial={
           reduceMotion
             ? false
-            : { opacity: 0, y: -20 }
+            : {
+                opacity: 0,
+                y: -20,
+              }
         }
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.55 }}
+        animate={{
+          opacity: 1,
+          y: 0,
+        }}
+        transition={{
+          duration: 0.55,
+        }}
         className={`
           sticky top-0 z-50 w-full
           bg-white/95 backdrop-blur-xl
@@ -298,6 +365,7 @@ export default function Navbar() {
             `}
           >
             {/* LOGO */}
+
             <Link
               to="/"
               onClick={closeMenus}
@@ -307,7 +375,10 @@ export default function Navbar() {
                 whileHover={
                   reduceMotion
                     ? undefined
-                    : { scale: 1.06, rotate: -3 }
+                    : {
+                        scale: 1.06,
+                        rotate: -3,
+                      }
                 }
                 transition={{
                   type: "spring",
@@ -332,12 +403,16 @@ export default function Navbar() {
               </div>
             </Link>
 
+            {/* ================================= */}
             {/* DESKTOP NAVIGATION */}
+            {/* ================================= */}
+
             <nav
               aria-label="Main navigation"
               className="hidden h-full items-center gap-5 lg:flex xl:gap-9"
             >
               {/* HOME + ABOUT */}
+
               {navItems.slice(0, 2).map((item) => (
                 <NavLink
                   key={item.path}
@@ -351,7 +426,6 @@ export default function Navbar() {
                     <>
                       {item.name}
 
-                      {/* ACTIVE HIGHLIGHT */}
                       {isActive && (
                         <motion.span
                           layoutId="activeNavUnderline"
@@ -364,7 +438,6 @@ export default function Navbar() {
                         />
                       )}
 
-                      {/* HOVER UNDERLINE */}
                       {!isActive && (
                         <span className="absolute bottom-[17px] left-0 h-[3px] w-0 rounded-full bg-[#C73828] transition-all duration-300 group-hover:w-full" />
                       )}
@@ -384,12 +457,32 @@ export default function Navbar() {
                 onMouseLeave={closeDropdownDelayed}
               >
                 <div className="flex h-full items-center">
-                  <NavLink
-                    to="/products"
-                    onClick={() => setProductsOpen(false)}
-                    className={desktopLinkClass(isProductsPage)}
+                  {/* PRODUCTS DROPDOWN TRIGGER */}
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setProductsOpen((prev) => !prev)
+                    }
+                    aria-expanded={productsOpen}
+                    aria-haspopup="true"
+                    className={`${desktopLinkClass(
+                      isProductsPage
+                    )} gap-1.5`}
                   >
                     Products
+
+                    <motion.span
+                      animate={{
+                        rotate: productsOpen ? 180 : 0,
+                      }}
+                      transition={{
+                        duration: 0.25,
+                      }}
+                      className="text-[#548526]"
+                    >
+                      <ChevronDown size={17} />
+                    </motion.span>
 
                     {isProductsPage && (
                       <motion.span
@@ -401,25 +494,10 @@ export default function Navbar() {
                     {!isProductsPage && (
                       <span className="absolute bottom-[17px] left-0 h-[3px] w-0 rounded-full bg-[#C73828] transition-all duration-300 group-hover:w-full" />
                     )}
-                  </NavLink>
-
-                  <button
-                    type="button"
-                    onClick={() => setProductsOpen((prev) => !prev)}
-                    aria-label="Toggle product categories"
-                    aria-expanded={productsOpen}
-                    className="ml-1.5 flex h-7 w-7 items-center justify-center rounded-full text-[#548526] transition-colors hover:bg-[#F0F7E8]"
-                  >
-                    <motion.span
-                      animate={{
-                        rotate: productsOpen ? 180 : 0,
-                      }}
-                      transition={{ duration: 0.25 }}
-                    >
-                      <ChevronDown size={17} />
-                    </motion.span>
                   </button>
                 </div>
+
+                {/* DROPDOWN MENU */}
 
                 <AnimatePresence>
                   {productsOpen && (
@@ -431,81 +509,87 @@ export default function Navbar() {
                       className="absolute left-1/2 top-full w-[385px] -translate-x-1/2 overflow-hidden rounded-[12px] border border-[#E7EDDF] bg-white p-2.5 shadow-[0_25px_65px_rgba(28,53,30,0.17)]"
                     >
                       {/* TOP ACCENT */}
+
                       <div className="absolute left-0 right-0 top-0 h-[3px] bg-gradient-to-r from-[#8BC53F] via-[#8BC53F] to-[#C73828]" />
 
-                      <Link
-                        to="/products"
-                        onClick={closeMenus}
-                        className="group flex items-center justify-between rounded-[7px] bg-[#F2F8EC] px-4 py-4 text-[14px] font-bold text-[#365A24] transition-colors hover:bg-[#E7F3DA]"
-                      >
-                        Explore All Products
-
-                        <ArrowUpRight
-                          size={18}
-                          className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
-                        />
-                      </Link>
+                      <div className="rounded-[7px] bg-[#F2F8EC] px-4 py-3">
+                        <p className="text-[13px] font-bold text-[#365A24]">
+                          Explore Product Categories
+                        </p>
+                      </div>
 
                       <div className="my-2 h-px bg-[#E9EDE5]" />
 
-                      {productCategories.map((category, index) => {
-                        const path = `/products/${category.slug}`;
-                        const active =
-                          location.pathname === path;
+                      {productCategories.map(
+                        (category, index) => {
+                          const path = `/products/${category.slug}`;
 
-                        return (
-                          <motion.div
-                            key={category.slug}
-                            initial={
-                              reduceMotion
-                                ? false
-                                : { opacity: 0, x: -15 }
-                            }
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{
-                              duration: 0.25,
-                              delay: index * 0.055,
-                            }}
-                          >
-                            <Link
-                              to={path}
-                              onClick={closeMenus}
-                              className={`
-                                group flex items-center justify-between
-                                gap-4 rounded-[7px] px-4 py-4
-                                text-[13px] font-semibold
-                                transition-all duration-300
-                                ${
-                                  active
-                                    ? "bg-[#EAF5DF] text-[#426B28]"
-                                    : "text-[#485748] hover:bg-[#F4F8EF] hover:text-[#426B28]"
-                                }
-                              `}
+                          const active =
+                            location.pathname === path;
+
+                          return (
+                            <motion.div
+                              key={category.slug}
+                              initial={
+                                reduceMotion
+                                  ? false
+                                  : {
+                                      opacity: 0,
+                                      x: -15,
+                                    }
+                              }
+                              animate={{
+                                opacity: 1,
+                                x: 0,
+                              }}
+                              transition={{
+                                duration: 0.25,
+                                delay: index * 0.055,
+                              }}
                             >
-                              <span>{category.name}</span>
-
-                              <ChevronRight
-                                size={17}
+                              <Link
+                                to={path}
+                                onClick={closeMenus}
                                 className={`
-                                  shrink-0 transition-transform duration-300
-                                  group-hover:translate-x-1
+                                  group flex items-center justify-between
+                                  gap-4 rounded-[7px] px-4 py-4
+                                  text-[13px] font-semibold
+                                  transition-all duration-300
                                   ${
                                     active
-                                      ? "text-[#C73828]"
-                                      : "text-[#8BC53F]"
+                                      ? "bg-[#EAF5DF] text-[#426B28]"
+                                      : "text-[#485748] hover:bg-[#F4F8EF] hover:text-[#426B28]"
                                   }
                                 `}
-                              />
-                            </Link>
-                          </motion.div>
-                        );
-                      })}
+                              >
+                                <span>
+                                  {category.name}
+                                </span>
+
+                                <ChevronRight
+                                  size={17}
+                                  className={`
+                                    shrink-0 transition-transform duration-300
+                                    group-hover:translate-x-1
+                                    ${
+                                      active
+                                        ? "text-[#C73828]"
+                                        : "text-[#8BC53F]"
+                                    }
+                                  `}
+                                />
+                              </Link>
+                            </motion.div>
+                          );
+                        }
+                      )}
                     </motion.div>
                   )}
                 </AnimatePresence>
               </div>
 
               {/* SERVICES + CONTACT */}
+
               {navItems.slice(2).map((item) => (
                 <NavLink
                   key={item.path}
@@ -535,29 +619,44 @@ export default function Navbar() {
             </nav>
 
             {/* ================================= */}
-            {/* ATTRACTIVE GET A QUOTE BUTTON */}
+            {/* DESKTOP GET A QUOTE - WHATSAPP */}
             {/* ================================= */}
 
             <motion.div
               whileHover={
-                reduceMotion ? undefined : { y: -3 }
+                reduceMotion
+                  ? undefined
+                  : {
+                      y: -3,
+                    }
               }
-              whileTap={{ scale: 0.96 }}
+              whileTap={{
+                scale: 0.96,
+              }}
               className="hidden shrink-0 lg:block"
             >
-              <Link
-                to="/contact"
+              <a
+                href={WHATSAPP_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Get a Quote on WhatsApp"
                 className="group relative flex h-[49px] items-center overflow-hidden rounded-[6px] bg-[#C73828] pl-6 text-[13px] font-bold text-white shadow-[0_10px_25px_rgba(199,56,40,0.24)] transition-shadow duration-300 hover:shadow-[0_14px_35px_rgba(199,56,40,0.32)] xl:text-[14px]"
               >
                 {/* HOVER BACKGROUND */}
-                <span className="absolute inset-0 translate-y-full bg-[#A92D22] transition-transform duration-400 group-hover:translate-y-0" />
+
+                <span className="absolute inset-0 translate-y-full bg-[#A92D22] transition-transform duration-300 group-hover:translate-y-0" />
 
                 {/* SHINE */}
+
                 <span className="pointer-events-none absolute -left-[80%] top-0 h-full w-[50%] skew-x-[-25deg] bg-white/20 transition-all duration-700 group-hover:left-[150%]" />
+
+                {/* BUTTON TEXT */}
 
                 <span className="relative z-10 whitespace-nowrap">
                   Get a Quote
                 </span>
+
+                {/* ARROW */}
 
                 <span className="relative z-10 ml-5 flex h-full w-[49px] items-center justify-center border-l border-white/20 bg-black/10 transition-colors duration-300 group-hover:bg-[#8BC53F]">
                   <ArrowUpRight
@@ -565,13 +664,18 @@ export default function Navbar() {
                     className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
                   />
                 </span>
-              </Link>
+              </a>
             </motion.div>
 
+            {/* ================================= */}
             {/* MOBILE MENU BUTTON */}
+            {/* ================================= */}
+
             <motion.button
               type="button"
-              whileTap={{ scale: 0.9 }}
+              whileTap={{
+                scale: 0.9,
+              }}
               onClick={() => setMobileOpen(true)}
               aria-label="Open navigation menu"
               aria-expanded={mobileOpen}
@@ -583,13 +687,16 @@ export default function Navbar() {
         </div>
 
         {/* ANIMATED BOTTOM BORDER */}
+
         <div className="absolute bottom-0 left-0 h-[2px] w-full overflow-hidden bg-[#EDF1E8]">
           <motion.div
             className="h-full w-[35%] bg-gradient-to-r from-transparent via-[#8BC53F] to-transparent"
             animate={
               reduceMotion
                 ? undefined
-                : { x: ["-120%", "350%"] }
+                : {
+                    x: ["-120%", "350%"],
+                  }
             }
             transition={{
               duration: 7,
@@ -600,23 +707,31 @@ export default function Navbar() {
         </div>
       </motion.header>
 
-      {/* ========================================= */}
+      {/* ====================================== */}
       {/* MOBILE MENU */}
-      {/* ========================================= */}
+      {/* ====================================== */}
 
       <AnimatePresence>
         {mobileOpen && (
           <>
             {/* BACKDROP */}
+
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
+              initial={{
+                opacity: 0,
+              }}
+              animate={{
+                opacity: 1,
+              }}
+              exit={{
+                opacity: 0,
+              }}
               onClick={closeMenus}
               className="fixed inset-0 z-[60] bg-[#0F1C12]/65 backdrop-blur-[4px] lg:hidden"
             />
 
-            {/* DRAWER */}
+            {/* MOBILE DRAWER */}
+
             <motion.aside
               variants={mobileVariants}
               initial="hidden"
@@ -627,7 +742,8 @@ export default function Navbar() {
               aria-label="Mobile navigation"
               className="fixed bottom-0 right-0 top-0 z-[70] flex w-[min(88vw,390px)] flex-col bg-white shadow-2xl lg:hidden"
             >
-              {/* HEADER */}
+              {/* MOBILE HEADER */}
+
               <div className="flex items-center justify-between gap-3 border-b border-[#E9EDE5] px-5 py-5">
                 <div className="flex items-center gap-2.5">
                   <img
@@ -657,7 +773,8 @@ export default function Navbar() {
                 </button>
               </div>
 
-              {/* MOBILE LINKS */}
+              {/* MOBILE NAVIGATION LINKS */}
+
               <div className="flex-1 overflow-y-auto overscroll-contain px-5 py-5">
                 <motion.div
                   initial="hidden"
@@ -673,12 +790,19 @@ export default function Navbar() {
                   className="flex flex-col"
                 >
                   {/* HOME + ABOUT */}
+
                   {navItems.slice(0, 2).map((item) => (
                     <motion.div
                       key={item.path}
                       variants={{
-                        hidden: { opacity: 0, x: 20 },
-                        visible: { opacity: 1, x: 0 },
+                        hidden: {
+                          opacity: 0,
+                          x: 20,
+                        },
+                        visible: {
+                          opacity: 1,
+                          x: 0,
+                        },
                       }}
                     >
                       <NavLink
@@ -699,6 +823,7 @@ export default function Navbar() {
                               {isActive && (
                                 <span className="h-6 w-[3px] rounded-full bg-[#8BC53F]" />
                               )}
+
                               {item.name}
                             </span>
 
@@ -716,51 +841,60 @@ export default function Navbar() {
                     </motion.div>
                   ))}
 
-                  {/* MOBILE PRODUCTS */}
+                  {/* ================================= */}
+                  {/* MOBILE PRODUCTS DROPDOWN */}
+                  {/* ================================= */}
+
                   <motion.div
                     variants={{
-                      hidden: { opacity: 0, x: 20 },
-                      visible: { opacity: 1, x: 0 },
+                      hidden: {
+                        opacity: 0,
+                        x: 20,
+                      },
+                      visible: {
+                        opacity: 1,
+                        x: 0,
+                      },
                     }}
                     className="border-b border-[#E9EDE5]"
                   >
-                    <div className="flex items-center justify-between">
-                      <Link
-                        to="/products"
-                        onClick={closeMenus}
-                        className={`flex-1 py-4 text-[16px] font-semibold ${
-                          isProductsPage
-                            ? "text-[#548526]"
-                            : "text-[#26352A]"
-                        }`}
-                      >
-                        <span className="flex items-center gap-3">
-                          {isProductsPage && (
-                            <span className="h-6 w-[3px] rounded-full bg-[#8BC53F]" />
-                          )}
-                          Products
-                        </span>
-                      </Link>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setMobileProductsOpen(
+                          (prev) => !prev
+                        )
+                      }
+                      aria-expanded={mobileProductsOpen}
+                      className={`flex w-full items-center justify-between py-4 text-[16px] font-semibold ${
+                        isProductsPage
+                          ? "text-[#548526]"
+                          : "text-[#26352A]"
+                      }`}
+                    >
+                      <span className="flex items-center gap-3">
+                        {isProductsPage && (
+                          <span className="h-6 w-[3px] rounded-full bg-[#8BC53F]" />
+                        )}
 
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setMobileProductsOpen((prev) => !prev)
-                        }
-                        aria-label="Toggle product categories"
-                        aria-expanded={mobileProductsOpen}
-                        className="flex h-10 w-10 items-center justify-center rounded-[6px] bg-[#EAF5DF] text-[#548526]"
-                      >
+                        Products
+                      </span>
+
+                      <span className="flex h-10 w-10 items-center justify-center rounded-[6px] bg-[#EAF5DF] text-[#548526]">
                         <motion.span
                           animate={{
-                            rotate: mobileProductsOpen ? 180 : 0,
+                            rotate: mobileProductsOpen
+                              ? 180
+                              : 0,
                           }}
-                          transition={{ duration: 0.25 }}
+                          transition={{
+                            duration: 0.25,
+                          }}
                         >
                           <ChevronDown size={19} />
                         </motion.span>
-                      </button>
-                    </div>
+                      </span>
+                    </button>
 
                     <AnimatePresence initial={false}>
                       {mobileProductsOpen && (
@@ -777,35 +911,40 @@ export default function Navbar() {
                             height: 0,
                             opacity: 0,
                           }}
-                          transition={{ duration: 0.3 }}
+                          transition={{
+                            duration: 0.3,
+                          }}
                           className="overflow-hidden"
                         >
                           <div className="mb-3 rounded-[8px] bg-[#F3F8EE] p-2">
-                            {productCategories.map((category) => {
-                              const path = `/products/${category.slug}`;
-                              const active =
-                                location.pathname === path;
+                            {productCategories.map(
+                              (category) => {
+                                const path = `/products/${category.slug}`;
 
-                              return (
-                                <Link
-                                  key={category.slug}
-                                  to={path}
-                                  onClick={closeMenus}
-                                  className={`flex items-center justify-between gap-3 rounded-[6px] px-3 py-3.5 text-[13px] font-semibold transition-colors ${
-                                    active
-                                      ? "bg-[#E2F1D3] text-[#426B28]"
-                                      : "text-[#536153] hover:bg-white hover:text-[#426B28]"
-                                  }`}
-                                >
-                                  {category.name}
+                                const active =
+                                  location.pathname === path;
 
-                                  <ChevronRight
-                                    size={16}
-                                    className="shrink-0 text-[#C73828]"
-                                  />
-                                </Link>
-                              );
-                            })}
+                                return (
+                                  <Link
+                                    key={category.slug}
+                                    to={path}
+                                    onClick={closeMenus}
+                                    className={`flex items-center justify-between gap-3 rounded-[6px] px-3 py-3.5 text-[13px] font-semibold transition-colors ${
+                                      active
+                                        ? "bg-[#E2F1D3] text-[#426B28]"
+                                        : "text-[#536153] hover:bg-white hover:text-[#426B28]"
+                                    }`}
+                                  >
+                                    {category.name}
+
+                                    <ChevronRight
+                                      size={16}
+                                      className="shrink-0 text-[#C73828]"
+                                    />
+                                  </Link>
+                                );
+                              }
+                            )}
                           </div>
                         </motion.div>
                       )}
@@ -813,12 +952,19 @@ export default function Navbar() {
                   </motion.div>
 
                   {/* SERVICES + CONTACT */}
+
                   {navItems.slice(2).map((item) => (
                     <motion.div
                       key={item.path}
                       variants={{
-                        hidden: { opacity: 0, x: 20 },
-                        visible: { opacity: 1, x: 0 },
+                        hidden: {
+                          opacity: 0,
+                          x: 20,
+                        },
+                        visible: {
+                          opacity: 1,
+                          x: 0,
+                        },
                       }}
                     >
                       <NavLink
@@ -838,6 +984,7 @@ export default function Navbar() {
                               {isActive && (
                                 <span className="h-6 w-[3px] rounded-full bg-[#8BC53F]" />
                               )}
+
                               {item.name}
                             </span>
 
@@ -856,16 +1003,30 @@ export default function Navbar() {
                   ))}
                 </motion.div>
 
-                {/* MOBILE CTA */}
+                {/* ================================= */}
+                {/* MOBILE GET A QUOTE - WHATSAPP */}
+                {/* ================================= */}
+
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.25 }}
+                  initial={{
+                    opacity: 0,
+                    y: 20,
+                  }}
+                  animate={{
+                    opacity: 1,
+                    y: 0,
+                  }}
+                  transition={{
+                    delay: 0.25,
+                  }}
                   className="mt-8"
                 >
-                  <Link
-                    to="/contact"
+                  <a
+                    href={WHATSAPP_LINK}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     onClick={closeMenus}
+                    aria-label="Get a Quote on WhatsApp"
                     className="group flex h-[52px] items-center justify-between overflow-hidden rounded-[6px] bg-[#C73828] pl-5 text-[14px] font-bold text-white shadow-[0_8px_22px_rgba(199,56,40,0.2)]"
                   >
                     Get a Quote
@@ -873,11 +1034,12 @@ export default function Navbar() {
                     <span className="flex h-full w-[52px] items-center justify-center border-l border-white/20 bg-black/10 transition-colors group-hover:bg-[#8BC53F]">
                       <ArrowUpRight size={20} />
                     </span>
-                  </Link>
+                  </a>
                 </motion.div>
               </div>
 
               {/* MOBILE FOOTER */}
+
               <div className="shrink-0 border-t border-[#E9EDE5] bg-[#F7FAF4] px-5 py-5">
                 <a
                   href="mailto:prasunmultiservices@gmail.com"
@@ -887,6 +1049,7 @@ export default function Navbar() {
                     size={16}
                     className="shrink-0 text-[#548526]"
                   />
+
                   prasunmultiservices@gmail.com
                 </a>
 
@@ -895,6 +1058,7 @@ export default function Navbar() {
                     size={16}
                     className="shrink-0 text-[#548526]"
                   />
+
                   Loni Kalbhor, Pune, Maharashtra
                 </p>
               </div>

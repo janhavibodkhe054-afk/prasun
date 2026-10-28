@@ -45,16 +45,26 @@ const contactDetails = [
       },
     ],
   },
-  {
-    title: "Phone Number",
-    icon: PhoneCall,
-    content: [
-      {
-        text: "08048773144",
-        href: "tel:08048773144",
-      },
-    ],
-  },
+  
+{
+  title: "Phone Number",
+  icon: PhoneCall,
+  content: [
+    {
+      text: "+91 9420415864",
+      href: "tel:+919420415864",
+    },
+    {
+      text: "+91 7020735788",
+      href: "tel:+917020735788",
+    },
+    {
+      text: "+91 9175820129",
+      href: "tel:+919175820129",
+    },
+  ],
+},
+
 ];
 
 export default function ContactInformation() {

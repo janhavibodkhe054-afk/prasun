@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import {
   ArrowUpRight,
-  Mail,
+  MessageCircle,
   PhoneCall,
   MessageSquareText,
   Send,
@@ -11,6 +11,8 @@ import {
 } from "lucide-react";
 import AOS from "aos";
 import "aos/dist/aos.css";
+
+const WHATSAPP_NUMBER = "919420415864";
 
 const initialForm = {
   fullName: "",
@@ -59,29 +61,37 @@ export default function EnquiryForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const subject = `Website Enquiry - ${formData.enquiryType}`;
-
-    const body = [
-      "Hello Prasun Multiservices,",
+    const message = [
+      "*New Website Enquiry*",
       "",
+      "Hello Prasun Multiservices,",
       "I would like to submit an enquiry.",
       "",
-      `Full Name: ${formData.fullName}`,
-      `Phone Number: ${formData.phone}`,
-      `Email Address: ${formData.email}`,
-      `Enquiry Type: ${formData.enquiryType}`,
+      `*Full Name:* ${formData.fullName.trim()}`,
+      `*Phone Number:* ${formData.phone.trim()}`,
+      `*Email Address:* ${formData.email.trim()}`,
+      `*Enquiry Type:* ${formData.enquiryType}`,
       "",
-      "My Requirement:",
-      formData.requirement,
+      "*My Requirement:*",
+      formData.requirement.trim(),
       "",
       "Thank you.",
     ].join("\n");
 
-    const mailto = `mailto:prasunmultiservices@gmail.com?subject=${encodeURIComponent(
-      subject
-    )}&body=${encodeURIComponent(body)}`;
+    const whatsappURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+      message
+    )}`;
 
-    window.location.href = mailto;
+    // Open WhatsApp with pre-filled enquiry details
+    const newWindow = window.open(
+      whatsappURL,
+      "_blank",
+      "noopener,noreferrer"
+    );
+
+    if (!newWindow) {
+      window.location.href = whatsappURL;
+    }
 
     setPrepared(true);
   };
@@ -96,6 +106,7 @@ export default function EnquiryForm() {
       className="relative w-full overflow-hidden bg-white py-14 sm:py-16 lg:py-20"
     >
       {/* BACKGROUND DECORATION */}
+
       <div className="pointer-events-none absolute -left-36 bottom-0 h-[370px] w-[370px] rounded-full bg-[#8BC53F]/5 blur-[70px]" />
 
       <div className="pointer-events-none absolute -right-28 -top-28 h-[320px] w-[320px] rounded-full border border-[#C73828]/10" />
@@ -104,11 +115,13 @@ export default function EnquiryForm() {
         <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-14 xl:gap-20">
 
           {/* LEFT CONTENT */}
+
           <div
             data-aos="fade-right"
             className="lg:sticky lg:top-28"
           >
             {/* EYEBROW */}
+
             <div className="mb-4 flex items-center gap-3">
               <span className="h-[2px] w-9 bg-[#C73828]" />
 
@@ -118,6 +131,7 @@ export default function EnquiryForm() {
             </div>
 
             {/* HEADING */}
+
             <h2
               id="enquiry-heading"
               className="max-w-[490px] text-[30px] font-bold leading-[1.2] tracking-[-0.7px] text-[#26352A] sm:text-[38px] lg:text-[42px]"
@@ -129,6 +143,7 @@ export default function EnquiryForm() {
             </h2>
 
             {/* ANIMATED UNDERLINE */}
+
             <motion.div
               initial={{ width: 0 }}
               whileInView={{ width: 60 }}
@@ -138,16 +153,25 @@ export default function EnquiryForm() {
             />
 
             {/* DESCRIPTION */}
+
             <p className="mt-6 max-w-[440px] text-[15px] leading-[29px] text-[#687568]">
-              Share your requirements and our team will get
-              in touch to discuss the next steps.
+              Share your requirements with us through WhatsApp.
+              Our team will review your enquiry and get in touch
+              to discuss the next steps.
             </p>
 
             {/* INFORMATION POINTS */}
+
             <div className="mt-9 space-y-6">
+
+              {/* REQUIREMENTS */}
+
               <div className="flex items-start gap-4">
                 <div className="flex h-[48px] w-[48px] shrink-0 items-center justify-center bg-[#F0F7E9] text-[#78AA38]">
-                  <MessageSquareText size={23} strokeWidth={1.7} />
+                  <MessageSquareText
+                    size={23}
+                    strokeWidth={1.7}
+                  />
                 </div>
 
                 <div>
@@ -162,26 +186,36 @@ export default function EnquiryForm() {
                 </div>
               </div>
 
+              {/* WHATSAPP */}
+
               <div className="flex items-start gap-4">
                 <div className="flex h-[48px] w-[48px] shrink-0 items-center justify-center bg-[#F0F7E9] text-[#78AA38]">
-                  <Mail size={23} strokeWidth={1.7} />
+                  <MessageCircle
+                    size={23}
+                    strokeWidth={1.7}
+                  />
                 </div>
 
                 <div>
                   <h3 className="text-[16px] font-bold text-[#26352A]">
-                    Prepare Email Enquiry
+                    Send Enquiry via WhatsApp
                   </h3>
 
                   <p className="mt-1 text-[14px] leading-[25px] text-[#687568]">
-                    Your enquiry details will be prepared
-                    in your email application.
+                    Your form details will be prepared as a
+                    WhatsApp message for easy communication.
                   </p>
                 </div>
               </div>
 
+              {/* CALL */}
+
               <div className="flex items-start gap-4">
                 <div className="flex h-[48px] w-[48px] shrink-0 items-center justify-center bg-[#F0F7E9] text-[#78AA38]">
-                  <PhoneCall size={23} strokeWidth={1.7} />
+                  <PhoneCall
+                    size={23}
+                    strokeWidth={1.7}
+                  />
                 </div>
 
                 <div>
@@ -190,16 +224,17 @@ export default function EnquiryForm() {
                   </h3>
 
                   <a
-                    href="tel:08048773144"
+                    href="tel:+919420415864"
                     className="mt-1 inline-block text-[14px] font-semibold text-[#C73828] transition-colors hover:text-[#8BC53F]"
                   >
-                    08048773144
+                    +91 9420415864
                   </a>
                 </div>
               </div>
             </div>
 
             {/* DECORATIVE LINE */}
+
             <div className="mt-9 flex gap-2">
               <span className="h-[3px] w-12 bg-[#8BC53F]" />
               <span className="h-[3px] w-5 bg-[#C73828]" />
@@ -208,6 +243,7 @@ export default function EnquiryForm() {
           </div>
 
           {/* RIGHT FORM */}
+
           <motion.div
             data-aos="fade-left"
             whileHover={
@@ -218,9 +254,11 @@ export default function EnquiryForm() {
             className="relative border border-[#E4EBDF] bg-white p-5 shadow-[0_18px_55px_rgba(30,50,30,0.06)] sm:p-8 lg:p-10"
           >
             {/* TOP ACCENT */}
+
             <div className="absolute left-0 top-0 h-[4px] w-full bg-gradient-to-r from-[#8BC53F] via-[#8BC53F] to-[#C73828]" />
 
             {/* FORM TITLE */}
+
             <div className="mb-7 flex items-center justify-between gap-4">
               <div>
                 <h3 className="text-[21px] font-bold text-[#26352A] sm:text-[23px]">
@@ -241,12 +279,14 @@ export default function EnquiryForm() {
               <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
 
                 {/* FULL NAME */}
+
                 <div>
                   <label
                     htmlFor="fullName"
                     className="mb-2 block text-[13px] font-semibold text-[#354536]"
                   >
-                    Full Name <span className="text-[#C73828]">*</span>
+                    Full Name{" "}
+                    <span className="text-[#C73828]">*</span>
                   </label>
 
                   <input
@@ -263,12 +303,14 @@ export default function EnquiryForm() {
                 </div>
 
                 {/* PHONE */}
+
                 <div>
                   <label
                     htmlFor="phone"
                     className="mb-2 block text-[13px] font-semibold text-[#354536]"
                   >
-                    Phone Number <span className="text-[#C73828]">*</span>
+                    Phone Number{" "}
+                    <span className="text-[#C73828]">*</span>
                   </label>
 
                   <input
@@ -287,12 +329,14 @@ export default function EnquiryForm() {
                 </div>
 
                 {/* EMAIL */}
+
                 <div className="sm:col-span-2">
                   <label
                     htmlFor="email"
                     className="mb-2 block text-[13px] font-semibold text-[#354536]"
                   >
-                    Email Address <span className="text-[#C73828]">*</span>
+                    Email Address{" "}
+                    <span className="text-[#C73828]">*</span>
                   </label>
 
                   <input
@@ -309,12 +353,14 @@ export default function EnquiryForm() {
                 </div>
 
                 {/* ENQUIRY TYPE */}
+
                 <div className="sm:col-span-2">
                   <label
                     htmlFor="enquiryType"
                     className="mb-2 block text-[13px] font-semibold text-[#354536]"
                   >
-                    Enquiry Type <span className="text-[#C73828]">*</span>
+                    Enquiry Type{" "}
+                    <span className="text-[#C73828]">*</span>
                   </label>
 
                   <select
@@ -330,7 +376,10 @@ export default function EnquiryForm() {
                     </option>
 
                     {enquiryOptions.map((option) => (
-                      <option key={option} value={option}>
+                      <option
+                        key={option}
+                        value={option}
+                      >
                         {option}
                       </option>
                     ))}
@@ -338,12 +387,14 @@ export default function EnquiryForm() {
                 </div>
 
                 {/* REQUIREMENT */}
+
                 <div className="sm:col-span-2">
                   <label
                     htmlFor="requirement"
                     className="mb-2 block text-[13px] font-semibold text-[#354536]"
                   >
-                    Your Requirement <span className="text-[#C73828]">*</span>
+                    Your Requirement{" "}
+                    <span className="text-[#C73828]">*</span>
                   </label>
 
                   <textarea
@@ -360,6 +411,7 @@ export default function EnquiryForm() {
               </div>
 
               {/* SUBMIT BUTTON */}
+
               <motion.button
                 type="submit"
                 whileHover={
@@ -371,10 +423,11 @@ export default function EnquiryForm() {
                 className="group relative mt-6 flex h-[54px] w-full items-center justify-between overflow-hidden bg-[#C73828] pl-6 text-[14px] font-semibold text-white transition-colors duration-300 hover:bg-[#AE3024]"
               >
                 {/* SHINE */}
+
                 <span className="pointer-events-none absolute inset-0 -translate-x-[150%] skew-x-[-25deg] bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 group-hover:translate-x-[150%]" />
 
                 <span className="relative z-10">
-                  Prepare Email Enquiry
+                  Send Enquiry via WhatsApp
                 </span>
 
                 <span className="relative z-10 flex h-full w-[54px] items-center justify-center border-l border-white/20 bg-black/10 transition-colors group-hover:bg-[#8BC53F]">
@@ -386,12 +439,15 @@ export default function EnquiryForm() {
               </motion.button>
 
               {/* NOTE */}
+
               <p className="mt-4 text-[12px] leading-[21px] text-[#7B867A]">
-                This preview opens an email draft. Please review
-                and send it from your email application.
+                Clicking the button opens WhatsApp with your
+                enquiry details. Please review and tap Send
+                to submit your message.
               </p>
 
               {/* STATUS */}
+
               {prepared && (
                 <div
                   role="status"
@@ -401,8 +457,10 @@ export default function EnquiryForm() {
                     size={18}
                     className="mt-[2px] shrink-0"
                   />
-                  Email draft prepared. Please send it from
-                  your email application.
+
+                  WhatsApp enquiry prepared. Please send
+                  the message in WhatsApp to complete
+                  your enquiry.
                 </div>
               )}
             </form>
