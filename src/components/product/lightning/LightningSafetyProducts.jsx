@@ -39,7 +39,7 @@ const protectionTypes = [
     id: "01",
     title: "Active / ESE Lightning Protection",
     icon: Zap,
-    image: "/active.png",
+    image: "/activel.png",
     description:
       "Designed for wider protection zones. The supplied product information lists a protection radius of up to 107 metres, subject to design and installation conditions.",
     features: [
