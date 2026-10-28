@@ -39,7 +39,7 @@ const protectionTypes = [
     id: "01",
     title: "Active / ESE Lightning Protection",
     icon: Zap,
-    image: "/active-ese-lightning.png",
+    image: "/active.png",
     description:
       "Designed for wider protection zones. The supplied product information lists a protection radius of up to 107 metres, subject to design and installation conditions.",
     features: [
@@ -53,7 +53,7 @@ const protectionTypes = [
     id: "02",
     title: "Passive / Conventional Lightning Protection",
     icon: ShieldCheck,
-    image: "/conventional-lightning.png",
+    image: "/passive.png",
     description:
       "Uses conventional air terminals and grounding arrangements. The supplied product information lists a protection radius of up to 10 metres per protection zone.",
     features: [
